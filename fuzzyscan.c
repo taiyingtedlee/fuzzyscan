@@ -13,11 +13,11 @@ int main(void)
 {
     unsigned char cmd[50];
 	unsigned char f_cmd[50];
+	unsigned char f_exit='\0';
 	FILE *fp;
 	int i;
 	
 /*
-
 	fp=fopen("test.txt","r");
 	if (fp == NULL)
 	{
@@ -33,7 +33,7 @@ int main(void)
 */
 	printf("Input cmd :\n");
    	scanf("%[a-zA-Z0-9]",f_cmd); 
-	
+
 	printf("Len : %d\n",host_send(f_cmd));
 	
 	return 0;
@@ -112,69 +112,77 @@ int host_send(unsigned char str[])
 		if (dec_cmd[1]==128 && dec_cmd[2]==0 && dec_cmd[3]==0)
 		{
 			printf("Opcode checked!\n");
-			// Check Status 1 Byte 00h and Length 2 Bytes00h 02h
+			// Check Status 1 Byte 00h 
 			if (dec_cmd[4]==0 && dec_cmd[5]==0 && dec_cmd[6]==2)
 			{
 				printf("Status and Length checked!\n");
-				// LED Selection
-				if (dec_cmd[7]==1) //RLED
+				// Check Length 2 Byte 00h 02h
+				if (dec_cmd[5]==0 && dec_cmd[6]==2)
 				{
-						switch(dec_cmd[8]) //LED Status
-						{
-							case 0:
-								printf("RED LED OFF!!!\n");
-								break;
-							case 1:
-								printf("RED LED ON!!!\n");
-								break;
-							case 2:
-								printf("ReStore to system control!!!\n");
-								break;
-							default:
-								printf("CHECK LED SETTING!!!\n");
-						}
+										
+					// LED Selection
+					if (dec_cmd[7]==1) //RLED
+					{
+							switch(dec_cmd[8]) //LED Status
+							{
+								case 0:
+									printf("RED LED OFF!!!\n");
+									break;
+								case 1:
+									printf("RED LED ON!!!\n");
+									break;
+								case 2:
+									printf("ReStore to system control!!!\n");
+									break;
+								default:
+									printf("CHECK LED SETTING!!!\n");
+							}
 
-				}else if (dec_cmd[7]==2) //GLED
+					}else if (dec_cmd[7]==2) //GLED
+					{
+			
+							switch(dec_cmd[8]) // LED Status
+							{
+								case 0:
+									printf("GREEN LED OFF!!!\n");
+									break;
+								case 1:
+									printf("GREEN LED ON!!!\n");
+									break;
+								case 2:
+									printf("ReStore to system control!!!\n");
+									break;
+								default:
+									printf("CHECK LED SETTING!!!\n");
+							}
+	
+					}else if (dec_cmd[7]==3) //BLED
+					{
+							switch(dec_cmd[8]) // LED Status
+							{
+								case 0:
+									printf("BLUE LED OFF!!!\n");
+									break;
+								case 1:
+									printf("BLUE LED ON!!!\n");
+									break;
+								case 2:
+									printf("ReStore to system control!!!\n");
+									break;
+								default:
+									printf("CHECK LED SETTING!!!\n");
+							}	
+					}	
+
+				}else if(dec_cmd[5]!=0 || dec_cmd[]!=2)
 				{
-					
-						switch(dec_cmd[8]) // LED Status
-						{
-							case 0:
-								printf("GREEN LED OFF!!!\n");
-								break;
-							case 1:
-								printf("GREEN LED ON!!!\n");
-								break;
-							case 2:
-								printf("ReStore to system control!!!\n");
-								break;
-							default:
-								printf("CHECK LED SETTING!!!\n");
-						}
-
-				}else if (dec_cmd[7]==3) //BLED
-				{
-						switch(dec_cmd[8]) // LED Status
-						{
-							case 0:
-								printf("BLUE LED OFF!!!\n");
-								break;
-							case 1:
-								printf("BLUE LED ON!!!\n");
-								break;
-							case 2:
-								printf("ReStore to system control!!!\n");
-								break;
-							default:
-								printf("CHECK LED SETTING!!!\n");
-						}	
-				}	
-
-			}else if (dec_cmd[4]!=0 || dec_cmd[5]!=0 || dec_cmd[6]!=2)
+					printf("ERROR: Length!\n");
+				}
+			}else if (dec_cmd[4]!=0)
 			{
-				printf("ERROR: Status and Length!\n");
-			}
-
+				printf("ERROR: Status!\n");
+			}	
+	
 		}else if (dec_cmd[1]!=128 || dec_cmd[2]!=0 || dec_cmd[3]!=0) 
 		{
 			printf("NOT LED setting!\n");
