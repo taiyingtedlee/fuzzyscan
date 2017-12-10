@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define SIZE 50
 
 int main(void)
 {
-	char hex[50]={'\0'};
+	char hex[SIZE]={'\0'};
 	int buf[2]={'\0'};
 	int i,j,len,ascii_d,decimal_val=0;
 	
 	printf("Input Cmd in Hex!\n");
-	scanf("%[a-zA-F0-9]",hex);
+	scanf("%[a-zA-Z0-9]",hex);
 
 	len=strlen(hex);
 
