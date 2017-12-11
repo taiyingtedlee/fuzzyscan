@@ -9,6 +9,8 @@ int host_send(unsigned char s[]);
 int dev_read(unsigned char s[]);
 int dev_reply(unsigned char s[]);
 
+
+
 int main(void)
 {
     unsigned char cmd[50];
