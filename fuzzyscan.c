@@ -75,6 +75,8 @@ void dev_read(CMD_STRUCT *cmd_s);
 int dev_reply(unsigned char s[]);
 
 char * parse_ch_arr(unsigned char s[]);
+
+int check_pre(unsigned char s[]);
 int check_pre_suf(unsigned char s[],int length);
 int check_opcode(unsigned char s[],int length);
 int check_status(unsigned char s[],int length);
@@ -88,7 +90,7 @@ int main(void)
     unsigned char cmd[SIZE];
 	unsigned char f_cmd[SIZE];
 	unsigned char *p_cmd;
-	unsigned int len;
+	int len,pre;
 	CMD_STRUCT cmd_struct;
 	FILE *fp;
 	int i;
@@ -111,18 +113,24 @@ int main(void)
 	p_cmd=(unsigned char *)malloc(sizeof(char)*MAX);
 	while(1){
 		printf("Input cmd :\n");
-   		scanf("%[a-zA-Z0-9]",p_cmd); 
-	
-		len=strlen(p_cmd);
-		printf("Input str len : %d\n",len);
+   		scanf("%[^\n]",p_cmd); 
+		
+		pre=check_pre(p_cmd);
+		if(pre>=0){
+		
+			len=strlen(p_cmd);
+			printf("Input str len : %d\n",len);
 
-		cmd_struct=parse_arr_s(p_cmd);
-		printf("parse_arr : ");
-		for(i=0;i<len/2;i++)
-		{
-			printf("%c ",cmd_struct.dec_cmd[i]);
-		}
-		printf("\n");
+			cmd_struct=parse_arr_s(p_cmd);
+			printf("parse_arr : ");
+			for(i=0;i<len/2;i++)
+			{
+				printf("%c ",cmd_struct.dec_cmd[i]);
+			}
+			printf("\n");
+		}else
+			printf("Input 7e as prefix\n");
+
 		setbuf(stdin,NULL);
 	}
 	free(p_cmd);
@@ -241,8 +249,7 @@ int host_send(unsigned char str[])
 
 void dev_read(CMD_STRUCT *cmd_s)
 {
-	printf("Cmd_s : %c",cmd_s.dec_cmd[0]);
-	return 0;	
+	
 }
 
 int dev_reply(unsigned char str[])
@@ -326,6 +333,22 @@ char * parse_ch_arr(unsigned char str[])
 	return pparse_str2ch;
 
 }
+
+int check_pre(unsigned char str[])
+{
+	int i;
+	int p=-1;
+	int len=strlen(str);
+	for (i=0;i<len;i++){
+		if(str[i]=='7' && str[i+1]=='e'){
+			p=i;
+			break;
+		}else
+			p=-1;
+	}
+	return  p;
+}
+
 
 int check_pre_suf(unsigned char str[],int length)
 {
