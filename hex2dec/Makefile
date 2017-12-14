@@ -1,7 +1,7 @@
-hex2dec: hex2dec.o
-	gcc -o hex2dec hex2dec.o
-hex2dec.o: hex2dec.c
-	gcc -c hex2dec.c
+h2d: h2d.o
+	gcc -o h2d h2d.o
+h2d.o: h2d.c
+	gcc -c h2d.c
 clean:
-	rm *.o 
+	rm *.o h2d 
 
