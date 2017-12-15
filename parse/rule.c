@@ -15,7 +15,7 @@ int main(void)
 	unsigned char buf[SIZE]={'\0'};
 	unsigned char ch_buf[SIZE]={'\0'};
 	int i=0,j,len;
-	int para_len;
+	int Para_len;
 	
 	fp=fopen("../cmd.txt","r+");
 
@@ -43,9 +43,10 @@ int main(void)
 	{
 		pre=0;
 	}
-
+	
+	int prefix_i=0;
 	// 
-	for(i=ch_buf_len,j=ch_buf_len;i<=len;i++,j++)
+	for(i=ch_buf_len,j=ch_buf_len;i<len;i++,j++)
 	{
 		// No 7eh appears
 		if(pre==-1)
@@ -55,10 +56,12 @@ int main(void)
 				// save 0x7e to ch_buf[0] and goto 1st 7eh appears
 				ch_buf[j]=*(p_buf+i);
 				pre=0;
-				printf("pre=0, %d\n ",i);
+				prefix_i=i;
+				printf("data [%d] is Prefix!\n",i);
 			}else if ( *(p_buf+i) != 0x7e )
 			{
 				j--;
+				printf("data [%d] is read, but No prefix...\n",i);
 				// no save and contiune
 			}
 
@@ -69,30 +72,52 @@ int main(void)
 			{
 				// save 0x7e to ch_buf[?] and goto 2nd 7eh appears
 				ch_buf[j]=*(p_buf+i);
-				printf("pre=0, %d\n",i);
+				printf("data [%d] is Suffix\n",i);
 				pre=1;
+				i--;
 			}else if( *(p_buf+i) != 0x7e )
 			{
 				// save data and contiune
 				ch_buf[j]=*(p_buf+i);
-				printf("pre=0, %d\n",i);
+				printf("data [%d] is read and saved\n",i);
 			}
 		// 2nd 7eh appears
 		}else if (pre==1)
 		{	
-			printf("suffix read: cmd completed!\n");
+			int ck_len;
+			int Para_bytes=(i-(prefix_i+7));
+			ck_len=(ch_buf[5]<<8)+ch_buf[6];
+			if(i<7)
+			{
+				printf("Serial cmd length : [%d] is not complete!\n",i);
+			}else if(i==7)
+			{
+				if(ck_len == Para_bytes)
+				{ 
+					printf("Length : %d match Para_bytes : %d\n",ck_len,Para_bytes);
+				}else if(ck_len!= Para_bytes)
+				{
+					printf("Length : %d does not match Para_bytes : %d\n",ck_len,Para_bytes);
+				}
+			}else if (i>7){
+				if(ck_len == Para_bytes)
+				{	
+					printf("Length : %d match Para_bytes : %d\n",ck_len,Para_bytes);
+				}else if (ck_len != Para_bytes)
+				{
+					printf("Length : %d does not match Para_bytes : %d\n",ck_len,Para_bytes);
+				}
+			}
 			break;
 		}
 	}
 	
+	ch_buf_len=len-prefix_i;
 	// show result
-	ch_buf_len=(int)strlen(ch_buf);
-	printf("after ch_buf_len: %d\n",ch_buf_len);
-	for (i=0;i<len;i++)
+	for (i=0;i<ch_buf_len;i++)
 	{
 		printf("%d %c\n",ch_buf[i],ch_buf[i]);
 	}
-	printf("\n");
 	
 	// show array	
 /*	

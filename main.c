@@ -52,7 +52,7 @@ int main(void)
 		exit(1);
 	}else
 	{
-		fwrite(w_hex,sizeof(w_hex),1,fp);
+		fwrite(w_hex,len-sp,1,fp);
 	}
 
 	setbuf(stdin,NULL);
