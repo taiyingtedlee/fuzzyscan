@@ -60,12 +60,12 @@ unsigned char * h2d(unsigned char hex[])
 		}
 
 	}
-
+/*  // ckeck results 
 	for (i=0;i<len/2;i++)
 	{
 		printf("Char[%d] : %c dec : %d\n",i,ch_dec[i],ch_dec[i]);
 	}
-
+*/
 	return ch_dec;
 
 }
