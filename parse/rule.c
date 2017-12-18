@@ -26,11 +26,14 @@ int main(void)
 	}
 	
 	fread(buf,sizeof(buf),1,fp);
-	len=(int)strlen(buf)/2;
-	printf("len : %d\n",len);
 		
 	p_buf=h2d(buf);
 	
+	//check cmd size
+	fseek(fp,0,SEEK_END);
+	int cmd_size = (ftell(fp)/2);
+	printf("cmd.txt size : %d\n",cmd_size);
+
 	// check ch_buf len
 	int ch_buf_len=(int)strlen(ch_buf);
 	printf("ch_buf_len: %d\n",ch_buf_len);
@@ -45,7 +48,7 @@ int main(void)
 	}
 
 	// 
-	for(i=ch_buf_len,j=ch_buf_len;i<=len;i++,j++)
+	for(i=ch_buf_len,j=ch_buf_len;i<cmd_size;i++,j++)
 	{
 		// No 7eh appears
 		if(pre==-1)
@@ -55,11 +58,12 @@ int main(void)
 				// save 0x7e to ch_buf[0] and goto 1st 7eh appears
 				ch_buf[j]=*(p_buf+i);
 				pre=0;
-				printf("pre=0, %d\n ",i);
+				printf("data [%d] : Prefix is read!\n",i);
 			}else if ( *(p_buf+i) != 0x7e )
 			{
 				j--;
 				// no save and contiune
+				printf("data [%d] : %d is read, BUT NO Prefix!\n",i,ch_buf[j]);
 			}
 
 		// 1st 7eh appears
@@ -69,30 +73,30 @@ int main(void)
 			{
 				// save 0x7e to ch_buf[?] and goto 2nd 7eh appears
 				ch_buf[j]=*(p_buf+i);
-				printf("pre=0, %d\n",i);
+				printf("data [%d] : Suffix is read!\n",i);
 				pre=1;
 			}else if( *(p_buf+i) != 0x7e )
 			{
 				// save data and contiune
 				ch_buf[j]=*(p_buf+i);
-				printf("pre=0, %d\n",i);
+				printf("data [%d] : %d is saved!\n",i,ch_buf[j]);
 			}
 		// 2nd 7eh appears
 		}else if (pre==1)
 		{	
-			printf("suffix read: cmd completed!\n");
+			printf("CMD complete!\n");
 			break;
 		}
 	}
 	
-	// show result
+	// show result NOTE: 0x00 in ch_buf[], show nothing, strlen() read '\0' as ending value
 	ch_buf_len=(int)strlen(ch_buf);
 	printf("after ch_buf_len: %d\n",ch_buf_len);
-	for (i=0;i<len;i++)
+	// 
+	for (i=0;i<cmd_size;i++)
 	{
-		printf("%d %c\n",ch_buf[i],ch_buf[i]);
+		printf("[%d] : %d %c\n",i,ch_buf[i],ch_buf[i]);
 	}
-	printf("\n");
 	
 	// show array	
 /*	

@@ -27,7 +27,6 @@ int main(void)
 	fgets(w_hex,sizeof(w_hex),stdin);
 	// NOTE: fgets(string) will count '\n'(ENTER) as well; 34'\n'
 	len=strlen(w_hex)-1;
- 
 	// fgets Space filter	
 	for(i=0,j=0,sp=0;j<len-sp;i++,j++){
 		if(w_hex[i]!=' '){
@@ -43,7 +42,7 @@ int main(void)
 	for(i=len-sp;i<len;i++){
 		w_hex[i]='\0';
 	}
-
+	printf("len - sp : %d - %d\n",len,sp);	
 	printf("w_hex len : %d\n",len);
 	// space filter fn
 	if(fp==NULL)
@@ -52,7 +51,7 @@ int main(void)
 		exit(1);
 	}else
 	{
-		fwrite(w_hex,sizeof(w_hex),1,fp);
+		fwrite(w_hex,(len-sp),1,fp);
 	}
 
 	setbuf(stdin,NULL);
@@ -69,6 +68,7 @@ int main(void)
 	printf("ret_len : %d\n",ret_len);
 	// using pointer to get ret_arr ;
 	p_parse_ch=h2d(r_hex);
+
 	for(i=0;i<ret_len;i++){
 		printf("parse ch[%d] : %c dec %d\n",i,*(p_parse_ch+i),*(p_parse_ch+i));
 	}
@@ -78,4 +78,5 @@ int main(void)
 //	}
 	return 0;
 }
+
 
