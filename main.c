@@ -3,7 +3,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <unistd.h>
-#include "h2d.h"
+#include "./include/h2d.h"
 
 #define SIZE 1024
 #define MAX	4096
@@ -32,12 +32,12 @@ int main(void)
 	for(i=0,j=0,sp=0;j<len-sp;i++,j++){
 		if(w_hex[i]!=' '){
 			w_hex[j]=w_hex[i];
-			printf("j : %d i : %d\n",j,i);
+//			printf("j : %d i : %d\n",j,i);
 		}else if (w_hex[i]==' '){
 			sp++;
 			w_hex[j]=w_hex[i];
 			j--;
-			printf("j : %d i : %d\n",j,i);
+//			printf("j : %d i : %d\n",j,i);
 		}
 	}
 	for(i=len-sp;i<len;i++){

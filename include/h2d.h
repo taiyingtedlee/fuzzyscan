@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define SIZE 1024
+
+#define H2D_SIZE 255
 
 unsigned char * h2d(unsigned char hex[])
 {
-	static unsigned char ch_dec[SIZE]={'\0'};
+	static unsigned char ch_dec[H2D_SIZE]={'\0'};
 	int len = strlen(hex);
 	int i;
 
-	memset(ch_dec,'\0',SIZE);
+	memset(ch_dec,'\0',H2D_SIZE);
 
 	for (i=0;i<len;i++)
 	{
