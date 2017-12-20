@@ -6,7 +6,7 @@
 #include <fcntl.h>
 #include "./include/h2d.h"
 #include "./include/sp_filter.h"
-
+#include "./include/dispatch_cmd.h"
 
 #define SIZE 255
 #define USB0 "/dev/ttyUSB0"
@@ -18,9 +18,10 @@ int main(void)
 {
 	FILE *fp;
 	unsigned char *p;
+	unsigned char *p_cmd;
 	unsigned char hex[SIZE]={'\0'};
 	unsigned char r_hex[SIZE]={'\0'};
-	int fd,res,len,i;	
+	int fd,res,len,i,sp=0;	
 	
 	printf("Reading ttyUSB1...\n");
 	fd=open(USB1,O_RDWR|O_NOCTTY);
@@ -38,35 +39,33 @@ int main(void)
 	}
 
 	// read(int fd, void *buffer,size_t count) ; read '\n' as well;	
-	do
+	while(1)
 	{
 		res=read(fd,r_hex,SIZE);
 		if(res == 1) continue;
 		r_hex[res]='\0';
 		len=(int)strlen(r_hex);
-		printf("strlen(r_hex) : %d\n",len);
-/*
-		for (i=0;i<res;i++)	
-		{	
-			if(r_hex[i] == '\n') 
-			{
-				break;
-			}else
-				printf("res : %d buf : %c\n",res,r_hex[i]);
-		}
-*/		
-		printf("USB buf : %s",r_hex);
+
+//		printf("ttyUSB recv : %s",r_hex);
+//		printf("strlen(r_hex) : %d\n",len);
+
 		p=sp_filter(r_hex);
-		printf("sp_filter(r_hex) : %s\n",p);
+//		printf("sp_filter(r_hex) : %s\n",p);
+		sp=*(p+len-1);
+//		printf("Number of SPACE : %d\n",sp);
+//		printf("Elements without sp : %d\n",len-1-sp);
+
+		p_cmd=h2d(p);
+		dispatch_cmd(p_cmd,(len-1-sp));
 
 		// save data to cmd.txt 	
-		fwrite(r_hex,len,1,fp);
+		fwrite(p,(len-1-sp),1,fp);
 		fseek(fp,SEEK_SET,0);
 		fread(hex,sizeof(hex),1,fp);
 		if (hex[len-1] == '\n') continue;
+		printf("\n");
+	}
 	
-	}while(r_hex[0] != '@');
-
 	
 	fclose(fp);
 	close(fd);

@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/h2d.h"
 
-#define PRE_SUF 2
 #define BUF_SIZE 1024
+int opcode(unsigned char *cmd);
+int status(unsigned char *cmd);
+int length(unsigned char *cmd);
 
 int dispatch_cmd(unsigned char *cmd,int p_len)
 {	
@@ -53,7 +54,7 @@ int dispatch_cmd(unsigned char *cmd,int p_len)
 		// if buf[i]==0x7e
 			if ( *(cmd+i) == 0x7e )
 			{
-				// save 0x7e to ch_buf[?] and goto 2nd 7eh appears
+				// save 0x7e to ch_buf[i] and goto 2nd 7eh appears
 				ch_buf[j]=*(cmd+i);
 				suffix_i=i;
 				printf("data [%d] : %c  => Suffix!\n",suffix_i,*(cmd+i));
@@ -71,6 +72,10 @@ int dispatch_cmd(unsigned char *cmd,int p_len)
 			int ck_len;
 			int Para_bytes=(suffix_i-(prefix_i+7));
 			ck_len=(ch_buf[5]<<8)+ch_buf[6];
+			
+			// check status
+			status(ch_buf);
+
 			if((suffix_i-prefix_i)<7)
 			{
 				printf("Serial cmd length : %d is not complete!\n",j);
@@ -105,32 +110,42 @@ int dispatch_cmd(unsigned char *cmd,int p_len)
 	return 0;
 }
 
-
-int main(void)
+// ch_buf[1]~ch_buf[3]
+int opcode(unsigned char *cmd)
 {
-	FILE *fp;
-	unsigned char *p_buf;
-	unsigned char pre_suf[PRE_SUF]={'\0','\0'};
-	unsigned char buf[BUF_SIZE]={'\0'};
-	int i=0,j,len;
-	
-	fp=fopen("../cmd.txt","r+");
-
-	if(fp ==NULL)
-	{
-		printf("fopen failure!\n");
-		exit (1);
-	}
-	
-	fread(buf,sizeof(buf),1,fp);
-	len=(int)strlen(buf);
-	printf("len : %d\n",len);
-
-	p_buf=h2d(buf);
-	
-	dispatch_cmd(p_buf,len);
-	fclose(fp);
-
 	return 0;
 }
+// ch_buf[4] 
+int status(unsigned char *cmd)
+{
+	if (cmd[4]==0x00)
+	{
+		printf("LRC and ACK/NCK request!\n");
+	}else if(cmd[4]!=0x00)
+	{
+		printf("Please check setting!\n");
+	}
+	return 0;
+}
+// ch_buf[5]~ch_buf[6]
+int length(unsigned char *cmd)
+{	
+	int ck_len;
+	int Para_bytes=(suffix_i-(prefix_i+7));
+	ck_len=(ch_buf[5]<<8)+ch_buf[6];
+			
+	// check status
+	status(ch_buf);
 
+	if((suffix_i-prefix_i)<7)
+	{	
+		printf("Serial cmd length : %d is not complete!\n",j);
+	}else if(ck_len == Para_bytes)
+	{
+		printf("Cmd lenght : %d\nLength : %d match Para_bytes : %d\n",j,ck_len,Para_bytes);
+	}else if (ck_len != Para_bytes)
+	{
+		printf("Cmd lenght : %d\nLength : %d does not match Para_bytes : %d\n",j,ck_len,Para_bytes);
+	}
+	return 0;
+}

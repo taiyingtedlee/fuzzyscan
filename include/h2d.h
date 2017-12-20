@@ -61,6 +61,14 @@ unsigned char * h2d(unsigned char hex[])
 		}
 
 	}
+	
+	// clean up and save length at ch_dec[len/2] (end of string);
+	for(i=len/2;i<len;i++)
+	{
+		ch_dec[i]='\0';
+	}
+	ch_dec[len/2]=len;
+
 /*  // ckeck results 
 	for (i=0;i<len/2;i++)
 	{

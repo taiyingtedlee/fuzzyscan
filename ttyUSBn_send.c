@@ -32,6 +32,7 @@ int main(void)
 		p_hex=sp_filter(hex);
 		sp=*(p_hex+len-1);
 		printf("Number of SPACE : %d\n",sp);
+		printf("Elements without sp : %d\n",len-1-sp);
 
 		if(fp==NULL)
 		{
