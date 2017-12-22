@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <errno.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -23,9 +24,9 @@ void *w_thread(void)
 	for(i=0;i<10;i++)
 	{
 		printf("w_thread %d th ......\n",i);
-		sleep(1);
 		// lock var		
 		lock_var;
+		sleep(1);
 	}
 // mutex unlock
 	if (pthread_mutex_unlock(&mutex)!=0)
@@ -34,7 +35,7 @@ void *w_thread(void)
 	}else
 		printf("W_THREAD UNLOCK the var\n");
 // mutex unlock	
-	sleep(1);
+	sleep(3);
 }
 
 void *r_thread(void)
@@ -43,7 +44,7 @@ void *r_thread(void)
 	int ret,i;
 // mutex trylock  EBUSY == 16 errono.h
 	ret=pthread_mutex_trylock(&mutex);
-	if(ret==16)
+	if(ret==EBUSY)
 	{
 		printf("r_thread: the var is locked by w_thread\n");
 	}else
@@ -51,7 +52,6 @@ void *r_thread(void)
 		if(ret!=0)
 		{
 			printf("pthread_mutex_trylock\n");
-			exit(1);
 		}else
 			printf("r_thread: GOT lock! Var: %d\n",lock_var);
 // mutex trylock 
@@ -66,12 +66,12 @@ void *r_thread(void)
 			for(i=0;i<10;i++)
 			{
 				printf("r_thread %d th",i);
-				sleep(1);
 			}
+			sleep(2);
+
 		}
 
 	}
-	sleep(1);
 
 }
 
@@ -101,10 +101,9 @@ int main(void)
 	}
 	
 	printf("MAIN thread...\n");
-
+	
 	pthread_join(w_th,NULL);
 	pthread_join(r_th,NULL);
-	
-
+	sleep(3);
 	return 0;
 }

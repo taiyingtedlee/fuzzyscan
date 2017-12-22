@@ -16,6 +16,7 @@
 
 int main(void)
 {
+	unsigned char mode='h';
 	FILE *fp;
 	unsigned char *p;
 	unsigned char *p_cmd;
@@ -46,22 +47,45 @@ int main(void)
 		r_hex[res]='\0';
 		len=(int)strlen(r_hex);
 
-//		printf("ttyUSB recv : %s",r_hex);
-//		printf("strlen(r_hex) : %d\n",len);
+		if ((r_hex[0]=='@' && r_hex[1]=='c') || (r_hex[0]=='@' && r_hex[1]=='h') )
+		{
+			mode = r_hex[1];
+		}
+	
 
-		p=sp_filter(r_hex);
-//		printf("sp_filter(r_hex) : %s\n",p);
-		sp=*(p+len-1);
-//		printf("Number of SPACE : %d\n",sp);
-//		printf("Elements without sp : %d\n",len-1-sp);
+		if(mode == 'h')
+		{
+			if (r_hex[0]=='@' && r_hex[1]=='h')
+			{
+				printf("Hex Input ...\n");
+//				continue;
+			}
+	//		printf("ttyUSB recv : %s",r_hex);
+	//		printf("strlen(r_hex) : %d\n",len);
 
-		p_cmd=h2d(p);
-		dispatch_cmd(p_cmd,(len-1-sp));
+			p=sp_filter(r_hex);
+	//		printf("sp_filter(r_hex) : %s\n",p);
+			sp=*(p+len-1);
+	//		printf("Number of SPACE : %d\n",sp);
+	//		printf("Elements without sp : %d\n",len-1-sp);
 
-		// save data to cmd.txt 	
-		fwrite(p,(len-1-sp),1,fp);
-		fseek(fp,SEEK_SET,0);
-		fread(hex,sizeof(hex),1,fp);
+			p_cmd=h2d(p);
+			dispatch_cmd(p_cmd,(len-1-sp));
+			// save data to cmd.txt 	
+			fwrite(p,(len-1-sp),1,fp);
+			fseek(fp,SEEK_SET,0);
+			fread(hex,sizeof(hex),1,fp);
+		
+		}else if(mode == 'c')
+		{
+			if (r_hex[0]=='@' && r_hex[1]=='c')
+			{
+				printf("ASCII Input ...\n");
+				continue;
+			}
+			printf("%s",r_hex);
+		}
+
 		if (hex[len-1] == '\n') continue;
 		printf("\n");
 	}
