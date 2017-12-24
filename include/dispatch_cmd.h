@@ -276,13 +276,16 @@ int length(unsigned char *cmd)
 
 int ack_nak(int ack)
 {
+	int ret=0;
 	if (ack==1)
 	{
-		printf("7e 00 00 00 00 00 00 0f 7e");	
+		printf("7e 00 00 00 00 00 00 0f 7e");
+		ret=1;
 	}else if(ack ==0)
 	{
 		printf("7e 0e 00 xx 00 00 00 0e 7e");
+		ret=0;
 	}
 
-	return 0;
+	return ret;
 }
