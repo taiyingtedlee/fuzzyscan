@@ -279,7 +279,7 @@ int ack_nak(int ack)
 	int ret=0;
 	if (ack==1)
 	{
-		printf("7e 00 00 00 00 00 00 0f 7e");
+		printf("7e 0f 00 00 00 00 00 0f 7e");
 		ret=1;
 	}else if(ack ==0)
 	{

@@ -27,6 +27,7 @@ unsigned char * sp_filter(unsigned char str[])
 	for(i=len-sp;i<len;i++){
 		buf[i]='\0';
 	}
+//	printf("len-sp : %d\n",len-sp);
 	// Number of SPACE save at buf[len]	
 	buf[len]=sp;
 //	printf("Num of SPACE : %d save at *(ptr+%d)\n",sp,len);

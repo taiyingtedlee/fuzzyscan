@@ -67,7 +67,7 @@ unsigned char * h2d(unsigned char hex[])
 	{
 		ch_dec[i]='\0';
 	}
-	ch_dec[len/2]=len;
+//	ch_dec[len/2]=len;
 
 /*  // ckeck results 
 	for (i=0;i<len/2;i++)

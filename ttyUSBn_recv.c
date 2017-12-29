@@ -22,7 +22,7 @@ int main(void)
 	unsigned char *p_cmd;
 	unsigned char hex[SIZE]={'\0'};
 	unsigned char r_hex[SIZE]={'\0'};
-	int fd,res,len,i,sp=0;	
+	int fd,res=0,len,i=0,sp=0;	
 	
 	printf("Reading ttyUSB1...\n");
 	fd=open(USB1,O_RDWR|O_NOCTTY);
@@ -42,9 +42,12 @@ int main(void)
 	// read(int fd, void *buffer,size_t count) ; read '\n' as well;	
 	while(1)
 	{
+		i++;
+		printf("i : %d\n",i);
 		res=read(fd,r_hex,SIZE);
+		printf("res : %d\n",res);
 		if(res == 1) continue;
-		r_hex[res]='\0';
+		r_hex[res]=0;
 		len=(int)strlen(r_hex);
 
 		if ((r_hex[0]=='@' && r_hex[1]=='c') || (r_hex[0]=='@' && r_hex[1]=='h') )
@@ -58,7 +61,7 @@ int main(void)
 			if (r_hex[0]=='@' && r_hex[1]=='h')
 			{
 				printf("Hex Input ...\n");
-//				continue;
+				continue;
 			}
 	//		printf("ttyUSB recv : %s",r_hex);
 	//		printf("strlen(r_hex) : %d\n",len);
@@ -89,7 +92,6 @@ int main(void)
 		if (hex[len-1] == '\n') continue;
 		printf("\n");
 	}
-	
 	
 	fclose(fp);
 	close(fd);
