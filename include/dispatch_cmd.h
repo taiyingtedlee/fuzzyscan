@@ -239,11 +239,11 @@ int status(unsigned char *cmd)
 	int ret=0;
 	if (cmd[4]==0x00)
 	{
-		printf("LRC and ACK/NCK request!\n");
+//		printf("LRC and ACK/NCK request!\n");
 		ret=1;
 	}else if(cmd[4]!=0x00)
 	{
-		printf("Please check setting!\n");
+//		printf("Please check setting!\n");
 		ret=0;
 	}
 	return ret;
@@ -256,7 +256,7 @@ int length(unsigned char *cmd)
 	int Para_bytes=0;
 	ck_len=(cmd[5]<<8)+cmd[6];
 	Para_bytes=cmd[0]-8;
-	printf("cmd lenght : %d \n",cmd[0]);
+//	printf("cmd lenght : %d \n",cmd[0]);
 	// prefix and suffix 2 bytes; opcode 3 bytes; status 1 bytes; length 2 bytes; para_bytes variable!
 	if(cmd[0]<8)
 	{	
