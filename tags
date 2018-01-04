@@ -1,0 +1,313 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Action	demo.c	/^static const struct _cmd_option1_major Action[]=$/;"	m	struct:_para_arr	typeref:struct:_para_arr::_cmd_option1_major
+Action	struct.c	/^static const struct _cmd_option1_major Action[]=$/;"	v	typeref:struct:_cmd_option1_major
+Action	struct1.c	92;"	d
+BAUD_arr	demo.c	/^static const struct _para_arr BAUD_arr[]=$/;"	m	struct:_para_arr	typeref:struct:_para_arr::_para_arr
+BAUD_arr	struct.c	/^static const struct _para_arr BAUD_arr={&baud_arr};$/;"	v	typeref:struct:_para_arr
+BRT_arr	struct1.c	/^static const struct _param_arr BRT_arr[]={&baud_arr};$/;"	v	typeref:struct:_param_arr
+BRT_arr	struct2.c	/^static const struct _param_arr BRT_arr[]={&baud_arr};$/;"	v	typeref:struct:_param_arr
+BUF_SIZE	include/dispatch_cmd.h	5;"	d
+BUF_SIZE	include/rm_sp.h	5;"	d
+BUF_SIZE	include/sp_filter.h	5;"	d
+BUF_SIZE	parse/rule.c	7;"	d
+CMD	test.c	11;"	d
+CMD_1_MASK	compound.c	5;"	d
+CMD_BUF	parse/ttyUSBn_recv.c	13;"	d
+CMD_BUF	ttyUSBn_recv.c	14;"	d
+CMD_MASK	struct1.c	12;"	d
+CMD_STRUCT	.fuzzyscan_old.c	/^}CMD_STRUCT;$/;"	t	typeref:struct:Command_struct
+CMD_STRUCT	fuzzyscan.c	/^}CMD_STRUCT;$/;"	t	typeref:struct:Command_struct
+COMPOUND	demo.c	21;"	d
+COMPOUND	demo.c	9;"	d
+COMPOUND	struct.c	6;"	d
+Command_struct	.fuzzyscan_old.c	/^typedef struct Command_struct{$/;"	s
+Command_struct	fuzzyscan.c	/^typedef struct Command_struct{$/;"	s
+Event	struct1.c	93;"	d
+H2D_SIZE	include/h2d.h	5;"	d
+House	ptrstruct.c	/^struct House$/;"	s
+Interface	struct1.c	/^static const struct _cmd_option2_minor Interface[]=$/;"	v	typeref:struct:_cmd_option2_minor
+Interface	struct2.c	/^static const struct _cmd_option2_minor Interface[]=$/;"	v	typeref:struct:_cmd_option2_minor
+Interface_get	struct1.c	/^static const struct _cmd_option1_major Interface_get[]=$/;"	v	typeref:struct:_cmd_option1_major
+Interface_get	struct2.c	/^static const struct _cmd_option1_major Interface_get[]=$/;"	v	typeref:struct:_cmd_option1_major
+Interface_rep	struct1.c	11;"	d
+Interface_rep	struct2.c	6;"	d
+Interface_set	struct1.c	/^static const struct  _cmd_option1_major Interface_set[]=$/;"	v	typeref:struct:_cmd_option1_major
+Interface_set	struct2.c	/^static const struct _cmd_option1_major Interface_set[]=$/;"	v	typeref:struct:_cmd_option1_major
+LIBS	thread/Makefile	/^LIBS ?= -lpthread$/;"	m
+MAX	.fuzzyscan_old.c	4;"	d
+MAX	fn_return_arr/return_arr.c	4;"	d
+MAX	fn_return_arr/return_arr_s.c	4;"	d
+MAX	fn_return_arr/return_p_arr.c	4;"	d
+MAX	fuzzyscan.c	4;"	d
+MAX	main.c	9;"	d
+PREFIX	.fuzzyscan_old.c	6;"	d
+PREFIX	fuzzyscan.c	6;"	d
+PRE_SUF	parse/.rule_old.c	6;"	d
+PRE_SUF	parse/check_cmd.c	6;"	d
+PRE_SUF	parse/fgetc_rule.c	5;"	d
+PRE_SUF	parse/rule.c	6;"	d
+Parse_arr	fn_return_arr/return_arr.c	/^typedef struct Parse_arr$/;"	s
+Parse_arr	fn_return_arr/return_arr_s.c	/^typedef struct Parse_arr$/;"	s
+RS232	demo.c	/^static const struct _cmd_option2_minor RS232[]=$/;"	m	struct:_para_arr	typeref:struct:_para_arr::_cmd_option2_minor
+RS232	struct.c	/^static const struct _cmd_option2_minor RS232[]=$/;"	v	typeref:struct:_cmd_option2_minor
+RS232	struct1.c	/^static const struct _cmd_option2_minor RS232[]=$/;"	v	typeref:struct:_cmd_option2_minor
+RS232	struct2.c	/^static const struct _cmd_option2_minor RS232[]=$/;"	v	typeref:struct:_cmd_option2_minor
+Ret_arr	fn_return_arr/return_arr.c	/^}Ret_arr;$/;"	t	typeref:struct:Parse_arr
+Ret_arr	fn_return_arr/return_arr_s.c	/^}Ret_arr;$/;"	t	typeref:struct:Parse_arr
+Room	ptrstruct.c	/^struct Room$/;"	s
+SERCMD_CINO_USE	struct1.c	14;"	d
+SERCMD_NO_ACKNAK	struct1.c	15;"	d
+SHK_arr	demo.c	/^static const struct _para_arr SHK_arr[]=$/;"	m	struct:_para_arr	typeref:struct:_para_arr::_para_arr
+SHK_arr	struct.c	/^static const struct _para_arr SHK_arr={&shk_arr};$/;"	v	typeref:struct:_para_arr
+SHK_arr	struct1.c	/^static const struct _param_arr SHK_arr[]={{&shk_arr_off},{&shk_arr_on},{&shk_arr_nak}};$/;"	v	typeref:struct:_param_arr
+SHK_arr	struct2.c	/^static const struct _param_arr SHK_arr[]={{&shk_arr_off},{&shk_arr_on},{&shk_arr_nak}};$/;"	v	typeref:struct:_param_arr
+SIMPLE	demo.c	20;"	d
+SIMPLE	demo.c	8;"	d
+SIMPLE	struct.c	5;"	d
+SIZE	.fuzzyscan_old.c	5;"	d
+SIZE	FILE_IO/rw_file.c	6;"	d
+SIZE	demo.c	11;"	d
+SIZE	demo.c	19;"	d
+SIZE	fn_return_arr/return_arr.c	5;"	d
+SIZE	fn_return_arr/return_arr_s.c	5;"	d
+SIZE	fn_return_arr/return_p_arr.c	5;"	d
+SIZE	fuzzyscan.c	5;"	d
+SIZE	hex2dec/h2d.c	4;"	d
+SIZE	hex2dec/h2d_arr.c	4;"	d
+SIZE	hex2dec/hex2dec.c	4;"	d
+SIZE	main.c	8;"	d
+SIZE	parse/.rule_old.c	7;"	d
+SIZE	parse/check_cmd.c	7;"	d
+SIZE	parse/fgetc_rule.c	6;"	d
+SIZE	parse/ttyUSBn_recv.c	10;"	d
+SIZE	struct1.c	7;"	d
+SIZE	test.c	8;"	d
+SIZE	thread/demo.c	12;"	d
+SIZE	thread/host.c	13;"	d
+SIZE	thread/main.c	12;"	d
+SIZE	thread/rw_thread.c	8;"	d
+SIZE	thread/thread.c	7;"	d
+SIZE	thread/thread_mutex.c	7;"	d
+SIZE	ttyUSBn_recv.c	11;"	d
+SIZE	ttyUSBn_send.c	8;"	d
+SUFFIX	.fuzzyscan_old.c	7;"	d
+SUFFIX	fuzzyscan.c	7;"	d
+TYPE	demo.c	10;"	d
+TYPE	demo.c	22;"	d
+TYPE	struct.c	7;"	d
+TYPE	struct2.c	5;"	d
+TYPE_ADDR	struct1.c	8;"	d
+TYPE_FUNCTION	struct1.c	10;"	d
+TYPE_MACRO	struct1.c	9;"	d
+USB	demo.c	/^static const struct _cmd_option2_minor USB[]=$/;"	m	struct:_para_arr	typeref:struct:_para_arr::_cmd_option2_minor
+USB	struct.c	/^static const struct _cmd_option2_minor USB[]=$/;"	v	typeref:struct:_cmd_option2_minor
+USB	struct1.c	/^static const struct _cmd_option2_minor USB[]=$/;"	v	typeref:struct:_cmd_option2_minor
+USB	struct2.c	/^static const struct _cmd_option2_minor USB[]=$/;"	v	typeref:struct:_cmd_option2_minor
+USB0	parse/ttyUSBn_recv.c	11;"	d
+USB0	test.c	9;"	d
+USB0	thread/demo.c	10;"	d
+USB0	thread/host.c	11;"	d
+USB0	thread/main.c	10;"	d
+USB0	ttyUSBn_recv.c	12;"	d
+USB0	ttyUSBn_send.c	9;"	d
+USB1	parse/ttyUSBn_recv.c	12;"	d
+USB1	test.c	10;"	d
+USB1	thread/demo.c	11;"	d
+USB1	thread/host.c	12;"	d
+USB1	thread/main.c	11;"	d
+USB1	ttyUSBn_recv.c	13;"	d
+USB1	ttyUSBn_send.c	10;"	d
+XTX_arr	demo.c	/^static const struct _para_arr XTX_arr[]=$/;"	m	struct:_para_arr	typeref:struct:_para_arr::_para_arr
+XTX_arr	struct1.c	/^static const struct _param_arr XTX_arr[]={{&xtx_arr}};$/;"	v	typeref:struct:_param_arr
+XTX_arr	struct2.c	/^static const struct _param_arr XTX_arr[]={{&xtx_arr}};$/;"	v	typeref:struct:_param_arr
+_cmd_opcode	compound.c	/^struct _cmd_opcode$/;"	s
+_cmd_opcode0	struct1.c	/^static const struct _cmd_opcode0$/;"	s
+_cmd_opcode0	struct2.c	/^static const struct _cmd_opcode0$/;"	s
+_cmd_option1_major	compound.c	/^struct _cmd_option1_major$/;"	s
+_cmd_option1_major	demo.c	/^struct _cmd_option1_major$/;"	s	struct:_para_arr
+_cmd_option1_major	struct.c	/^struct _cmd_option1_major$/;"	s
+_cmd_option1_major	struct1.c	/^struct _cmd_option1_major$/;"	s
+_cmd_option1_major	struct2.c	/^struct _cmd_option1_major$/;"	s
+_cmd_option2_minor	compound.c	/^struct _cmd_option2_minor$/;"	s
+_cmd_option2_minor	demo.c	/^struct _cmd_option2_minor$/;"	s	struct:_para_arr
+_cmd_option2_minor	struct.c	/^struct _cmd_option2_minor$/;"	s
+_cmd_option2_minor	struct1.c	/^struct _cmd_option2_minor$/;"	s
+_cmd_option2_minor	struct2.c	/^struct _cmd_option2_minor$/;"	s
+_para_arr	demo.c	/^struct _para_arr$/;"	s
+_para_arr	struct.c	/^struct _para_arr$/;"	s
+_param_arr	compound.c	/^struct _param_arr$/;"	s
+_param_arr	struct1.c	/^struct _param_arr$/;"	s
+_param_arr	struct2.c	/^struct _param_arr$/;"	s
+ack_nak	include/dispatch_cmd.h	/^int ack_nak(int ack)$/;"	f
+address	ptrstruct.c	/^	char *address;$/;"	m	struct:House
+arr	compound.c	/^	const struct _param_arr *arr;$/;"	m	struct:_cmd_option2_minor	typeref:struct:_cmd_option2_minor::_param_arr
+arr	compound.c	/^	void *arr;$/;"	m	struct:_param_arr
+arr	demo.c	/^	void *arr;$/;"	m	struct:_para_arr
+arr	struct1.c	/^	const struct _param_arr *arr;$/;"	m	struct:_cmd_option2_minor	typeref:struct:_cmd_option2_minor::_param_arr
+arr	struct1.c	/^	void *arr;$/;"	m	struct:_param_arr
+arr	struct2.c	/^	const struct _param_arr *arr;$/;"	m	struct:_cmd_option2_minor	typeref:struct:_cmd_option2_minor::_param_arr
+arr	struct2.c	/^	void *arr;$/;"	m	struct:_param_arr
+baud_arr	struct.c	/^static const unsigned char baud_arr={0x00}; $/;"	v
+baud_arr	struct1.c	/^static unsigned char baud_arr[]={0x02,0x03,0x04};$/;"	v
+baud_arr	struct2.c	/^static unsigned char baud_arr[]={0x02,0x03,0x04};$/;"	v
+check_digit_fn	.fuzzyscan_old.c	/^unsigned char check_digit_fn(unsigned char str[],int length)$/;"	f
+check_digit_fn	fuzzyscan.c	/^unsigned char check_digit_fn(unsigned char str[],int length)$/;"	f
+check_length	.fuzzyscan_old.c	/^int check_length(unsigned char str[],int length)$/;"	f
+check_length	fuzzyscan.c	/^int check_length(unsigned char str[],int length)$/;"	f
+check_opcode	.fuzzyscan_old.c	/^int check_opcode(unsigned char str[],int length)$/;"	f
+check_opcode	fuzzyscan.c	/^int check_opcode(unsigned char str[],int length)$/;"	f
+check_pre	.fuzzyscan_old.c	/^int check_pre(unsigned char str[])$/;"	f
+check_pre	fuzzyscan.c	/^int check_pre(unsigned char str[])$/;"	f
+check_pre_suf	.fuzzyscan_old.c	/^int check_pre_suf(unsigned char str[],int length)$/;"	f
+check_pre_suf	fuzzyscan.c	/^int check_pre_suf(unsigned char str[],int length)$/;"	f
+check_status	.fuzzyscan_old.c	/^int check_status(unsigned char str[],int length)$/;"	f
+check_status	fuzzyscan.c	/^int check_status(unsigned char str[],int length)$/;"	f
+dec_cmd	.fuzzyscan_old.c	/^	unsigned char dec_cmd[SIZE];$/;"	m	struct:Command_struct
+dec_cmd	fn_return_arr/return_arr.c	/^	unsigned char dec_cmd[SIZE];$/;"	m	struct:Parse_arr
+dec_cmd	fn_return_arr/return_arr_s.c	/^	unsigned char dec_cmd[SIZE];$/;"	m	struct:Parse_arr
+dec_cmd	fuzzyscan.c	/^	unsigned char dec_cmd[SIZE];$/;"	m	struct:Command_struct
+dev_read	.fuzzyscan_old.c	/^void dev_read(CMD_STRUCT *cmd_s)$/;"	f
+dev_read	fuzzyscan.c	/^void dev_read(CMD_STRUCT *cmd_s)$/;"	f
+dev_reply	.fuzzyscan_old.c	/^int dev_reply(unsigned char str[])$/;"	f
+dev_reply	fuzzyscan.c	/^int dev_reply(unsigned char str[])$/;"	f
+devr_thread	thread/host.c	/^void *devr_thread(void)$/;"	f
+dispatch_cmd	compound.c	/^int dispatch_cmd(unsigned char *cmd)	$/;"	f
+dispatch_cmd	demo.c	/^int dispatch_cmd(unsigned char *cmd)$/;"	f	struct:_para_arr
+dispatch_cmd	include/dispatch_cmd.h	/^int dispatch_cmd(unsigned char *cmd,int p_len)$/;"	f
+dispatch_cmd	parse/rule.c	/^int dispatch_cmd(unsigned char *cmd,int p_len)$/;"	f
+dispatch_cmd	struct1.c	/^int dispatch_cmd(unsigned char *cmd)$/;"	f
+fd	thread/demo.c	/^int fd;$/;"	v
+fd	thread/host.c	/^int fd;$/;"	v
+fd	thread/main.c	/^int fd;$/;"	v
+fp	thread/demo.c	/^FILE *fp,*fp_r;$/;"	v
+fp	thread/main.c	/^FILE *fp;$/;"	v
+fp_dev	thread/host.c	/^FILE *fp_host,*fp_dev;$/;"	v
+fp_host	thread/host.c	/^FILE *fp_host,*fp_dev;$/;"	v
+fp_r	thread/demo.c	/^FILE *fp,*fp_r;$/;"	v
+h2d	hex2dec/h2d.c	/^int h2d(unsigned char hex[])$/;"	f
+h2d	hex2dec/h2d_arr.c	/^unsigned char * h2d(unsigned char hex[])$/;"	f
+h2d	include/h2d.h	/^unsigned char * h2d(unsigned char hex[])$/;"	f
+height	ptrstruct.c	/^	float height;$/;"	m	struct:Room
+host_send	.fuzzyscan_old.c	/^int host_send(unsigned char str[])$/;"	f
+host_send	fuzzyscan.c	/^int host_send(unsigned char str[])$/;"	f
+hostr_thread	thread/host.c	/^void *hostr_thread(void)$/;"	f
+hostw_thread	thread/host.c	/^void *hostw_thread(void)$/;"	f
+id	compound.c	/^	unsigned char id;$/;"	m	struct:_cmd_option1_major
+id	compound.c	/^	unsigned char id;$/;"	m	struct:_cmd_option2_minor
+id	demo.c	/^	unsigned char id;$/;"	m	struct:_para_arr::_cmd_option1_major
+id	demo.c	/^	unsigned char id;$/;"	m	struct:_para_arr::_cmd_option2_minor
+id	struct.c	/^	unsigned char id;$/;"	m	struct:_cmd_option1_major
+id	struct1.c	/^	unsigned char id;$/;"	m	struct:_cmd_option1_major
+id	struct1.c	/^	unsigned char id;$/;"	m	struct:_cmd_option2_minor
+id	struct2.c	/^	unsigned char id;$/;"	m	struct:_cmd_option1_major
+id	struct2.c	/^	unsigned char id;$/;"	m	struct:_cmd_option2_minor
+led_indicator_p	.fuzzyscan_old.c	/^int led_indicator_p(unsigned char str[])$/;"	f
+led_indicator_p	fuzzyscan.c	/^int led_indicator_p(unsigned char str[])$/;"	f
+length	include/dispatch_cmd.h	/^int length(unsigned char *cmd)$/;"	f
+length	ptrstruct.c	/^	float length;$/;"	m	struct:Room
+lock_var	thread/rw_thread.c	/^int lock_var;$/;"	v
+main	.fuzzyscan_old.c	/^int main(void)$/;"	f
+main	FILE_IO/rw_file.c	/^int main(void)$/;"	f
+main	compound.c	/^int main(void)$/;"	f
+main	demo.c	/^int main(void)$/;"	f	struct:_para_arr
+main	fn_return_arr/return_arr.c	/^int main(void)$/;"	f
+main	fn_return_arr/return_arr_s.c	/^int main(void)$/;"	f
+main	fn_return_arr/return_p_arr.c	/^int main(void)$/;"	f
+main	fuzzyscan.c	/^int main(void)$/;"	f
+main	hex2dec/h2d.c	/^int main(void)$/;"	f
+main	hex2dec/h2d_arr.c	/^int main(void)$/;"	f
+main	hex2dec/hex2dec.c	/^int main(void)$/;"	f
+main	main.c	/^int main(void)$/;"	f
+main	parse/.rule_old.c	/^int main(void)$/;"	f
+main	parse/check_cmd.c	/^int main(void)$/;"	f
+main	parse/fgetc_rule.c	/^int main(void)$/;"	f
+main	parse/rule.c	/^int main(void)$/;"	f
+main	parse/ttyUSBn_recv.c	/^int main(void)$/;"	f
+main	ptr.c	/^int main(int argc, char * argv)$/;"	f
+main	ptrstruct.c	/^int main(void)$/;"	f
+main	small.c	/^int main(void)$/;"	f
+main	struct.c	/^int main(void)$/;"	f
+main	struct1.c	/^int main(void)$/;"	f
+main	struct2.c	/^int main(void)$/;"	f
+main	test.c	/^int main(void)$/;"	f
+main	thread/demo.c	/^int main(void)$/;"	f
+main	thread/host.c	/^int main(void)$/;"	f
+main	thread/main.c	/^int main(void)$/;"	f
+main	thread/rw_thread.c	/^int main(void)$/;"	f
+main	thread/thread.c	/^int main(void)$/;"	f
+main	thread/thread_mutex.c	/^int main(void)$/;"	f
+main	ttyUSBn_recv.c	/^int main(void)$/;"	f
+main	ttyUSBn_send.c	/^int main(void)$/;"	f
+mutex	thread/demo.c	/^pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;$/;"	v
+mutex	thread/host.c	/^pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;$/;"	v
+mutex	thread/main.c	/^pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;$/;"	v
+mutex	thread/rw_thread.c	/^pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;$/;"	v
+mutex	thread/thread_mutex.c	/^pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;$/;"	v
+name	ptrstruct.c	/^	char *name;$/;"	m	struct:Room
+new_cmd	struct1.c	/^static const struct _cmd_opcode0 new_cmd[]=$/;"	v	typeref:struct:_cmd_opcode0
+new_cmd	struct2.c	/^static const struct _cmd_opcode0 new_cmd[]=$/;"	v	typeref:struct:_cmd_opcode0
+num	compound.c	/^	unsigned short num;$/;"	m	struct:_cmd_option2_minor
+num	struct1.c	/^	unsigned short num;$/;"	m	struct:_cmd_option2_minor
+num	struct2.c	/^	unsigned short num;$/;"	m	struct:_cmd_option2_minor
+opcode	include/dispatch_cmd.h	/^int opcode(unsigned char *cmd)$/;"	f
+opcodes	struct1.c	/^static const unsigned char opcodes[]=$/;"	v
+opcodes	struct2.c	/^static const unsigned char opcodes[]=$/;"	v
+option	struct.c	/^	void *option;$/;"	m	struct:_para_arr
+option1	demo.c	/^	const struct _cmd_option2_minor *option1;$/;"	m	struct:_para_arr::_cmd_option1_major	typeref:struct:_para_arr::_cmd_option1_major::_cmd_option2_minor
+option1	struct.c	/^	const struct _cmd_option2_minor *option1;$/;"	m	struct:_cmd_option1_major	typeref:struct:_cmd_option1_major::_cmd_option2_minor
+option1	struct1.c	/^	const struct _cmd_option1_major *option1;$/;"	m	struct:_cmd_opcode0	typeref:struct:_cmd_opcode0::_cmd_option1_major
+option1	struct2.c	/^	const struct _cmd_option1_major *option1;$/;"	m	struct:_cmd_opcode0	typeref:struct:_cmd_opcode0::_cmd_option1_major
+option2	struct1.c	/^	const struct _cmd_option2_minor *option2;$/;"	m	struct:_cmd_option1_major	typeref:struct:_cmd_option1_major::_cmd_option2_minor
+option2	struct2.c	/^	const struct _cmd_option2_minor *option2;$/;"	m	struct:_cmd_option1_major	typeref:struct:_cmd_option1_major::_cmd_option2_minor
+option_1	compound.c	/^	unsigned char _cmd_option1_major *option_1;$/;"	m	struct:_cmd_opcode
+option_1	demo.c	/^	const struct _cmd_option2_minor *option_1;$/;"	m	struct:_para_arr::_cmd_option1_major	typeref:struct:_para_arr::_cmd_option1_major::_cmd_option2_minor
+option_2	compound.c	/^	const struct _cmd_option2_minor *option_2;$/;"	m	struct:_cmd_option1_major	typeref:struct:_cmd_option1_major::_cmd_option2_minor
+para_arr	demo.c	/^	const struct _para_arr *para_arr;$/;"	m	struct:_para_arr::_cmd_option2_minor	typeref:struct:_para_arr::_cmd_option2_minor::_para_arr
+para_table	struct.c	/^	const struct _para_arr *para_table;$/;"	m	struct:_cmd_option2_minor	typeref:struct:_cmd_option2_minor::_para_arr
+parse_arr_s	.fuzzyscan_old.c	/^CMD_STRUCT parse_arr_s(unsigned char str[])$/;"	f
+parse_arr_s	fuzzyscan.c	/^CMD_STRUCT parse_arr_s(unsigned char str[])$/;"	f
+parse_ch_arr	.fuzzyscan_old.c	/^char * parse_ch_arr(unsigned char str[])$/;"	f
+parse_ch_arr	fn_return_arr/return_p_arr.c	/^unsigned char * parse_ch_arr(unsigned char str[])$/;"	f
+parse_ch_arr	fuzzyscan.c	/^char * parse_ch_arr(unsigned char str[])$/;"	f
+parse_ch_arr_s	fn_return_arr/return_arr.c	/^Ret_arr parse_ch_arr_s(unsigned char str[])$/;"	f
+parse_ch_arr_s	fn_return_arr/return_arr_s.c	/^Ret_arr parse_ch_arr_s(unsigned char str[])$/;"	f
+pid	struct.c	/^	unsigned char pid;$/;"	m	struct:_cmd_option2_minor
+printHouse	ptrstruct.c	/^void printHouse(struct House house)$/;"	f
+r_thread	thread/demo.c	/^void *r_thread(void)$/;"	f
+r_thread	thread/main.c	/^void *r_thread(void)$/;"	f
+r_thread	thread/rw_thread.c	/^void *r_thread(void)$/;"	f
+r_thread	thread/thread.c	/^void *r_thread(void)$/;"	f
+r_thread	thread/thread_mutex.c	/^void *r_thread(void)$/;"	f
+rooms	ptrstruct.c	/^	struct Room *rooms[10];$/;"	m	struct:House	typeref:struct:House::Room
+shk_arr	struct.c	/^static const unsigned char shk_arr={0x45,0x00,0x00}; $/;"	v
+shk_arr_nak	struct1.c	/^static unsigned char shk_arr_nak[]={0x00,0x01,0x00};$/;"	v
+shk_arr_nak	struct2.c	/^static unsigned char shk_arr_nak[]={0x00,0x01,0x00};$/;"	v
+shk_arr_off	struct1.c	/^static unsigned char shk_arr_off[]={0x00,0x00,0x00};$/;"	v
+shk_arr_off	struct2.c	/^static unsigned char shk_arr_off[]={0x00,0x00,0x00};$/;"	v
+shk_arr_on	struct1.c	/^static unsigned char shk_arr_on[]={0x00,0x00,0x01};$/;"	v
+shk_arr_on	struct2.c	/^static unsigned char shk_arr_on[]={0x00,0x00,0x01};$/;"	v
+size	demo.c	/^	unsigned short size;$/;"	m	struct:_para_arr::_cmd_option2_minor
+size	struct.c	/^	unsigned char size;$/;"	m	struct:_cmd_option2_minor
+sp_filter	include/rm_sp.h	/^unsigned char * sp_filter(unsigned char str[])$/;"	f
+sp_filter	include/sp_filter.h	/^unsigned char * sp_filter(unsigned char str[])$/;"	f
+status	include/dispatch_cmd.h	/^int status(unsigned char *cmd)$/;"	f
+str	thread/demo.c	/^unsigned char str[SIZE]={'\\0'};$/;"	v
+str	thread/host.c	/^unsigned char str[SIZE]={'\\0'};$/;"	v
+str	thread/main.c	/^unsigned char str[SIZE]={'\\0'};$/;"	v
+str	thread/thread_mutex.c	/^unsigned char str[SIZE]={'\\0'};$/;"	v
+type	compound.c	/^	unsigned char type;$/;"	m	struct:_cmd_option2_minor
+type	struct1.c	/^	unsigned char type;$/;"	m	struct:_cmd_option2_minor
+type	struct2.c	/^	unsigned char type;$/;"	m	struct:_cmd_option2_minor
+w_thread	thread/demo.c	/^void *w_thread(void)$/;"	f
+w_thread	thread/main.c	/^void *w_thread(void)$/;"	f
+w_thread	thread/rw_thread.c	/^void *w_thread(void)$/;"	f
+w_thread	thread/thread.c	/^void *w_thread(void)$/;"	f
+w_thread	thread/thread_mutex.c	/^void *w_thread(void)$/;"	f
+width	ptrstruct.c	/^	float width;$/;"	m	struct:Room
+xtx_arr	struct1.c	/^static unsigned char xtx_arr[]={0x00,0x01};$/;"	v
+xtx_arr	struct2.c	/^static unsigned char xtx_arr[]={0x00,0x01};$/;"	v
