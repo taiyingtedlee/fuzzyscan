@@ -169,17 +169,27 @@ int dispatch_cmd(unsigned char *cmd)
 	unsigned char cmd_id;
 	unsigned char ccd[SIZE]={'\0'};
 // 	unsigned char *buf = ccd_capture_buffer_2+4,*end;
-	unsigned char *buf,*end;
+	unsigned char *buf=ccd+4,*end;
 	unsigned char chksum=cmd[1]^cmd[2]^cmd[3]^cmd[4]^cmd[5]^cmd[6]; // opcode to length
 	unsigned char result_buf1[2048];
 
-	unsigned char *buf_tmp;
+	unsigned char *buf_tmp,*cmd_tmp=&cmd[7];
 	
 	/* NOTE : if *buf initial value is not declared, segmentation fault!!! ?!
 	** if, Opcode 82h 00h 03h  cmd[1]: 82h 
 	*/
-	buf=ccd;
+	printf("line:%d  cmd_tmp : %p &cmd : %p  &cmd[7] : %p \n",__LINE__,cmd_tmp,cmd,&cmd[7]);	
+	
+	for(i=0;i<len;i++){
+		buf[i]=cmd_tmp[i];
+		printf("line:%d buf : %p buf[%d] : %02x &buf[%d] : %p\n",__LINE__,buf,i,buf[i],i,&(buf[i]));
+	}
+	printf("line:%d buf[1] : %02x\n",__LINE__,buf[1]);
+	printf("line:%d  buf : %p ccd : %p \n",__LINE__,buf,ccd);
+
+
 	buf_tmp=buf;
+	buf=ccd;
 	printf("line:%d length : %d\n",__LINE__,len-1);
 	printf("line:%d &buf : %p &buf_tmp : %p &ccd : %p \n",__LINE__,&buf,&buf_tmp,&ccd);
 	printf("line:%d  buf : %p  buf_tmp : %p  ccd : %p \n",__LINE__,buf,buf_tmp,ccd);
@@ -208,8 +218,8 @@ int dispatch_cmd(unsigned char *cmd)
 	printf("line:%d &buf[0]: %p\n",__LINE__,&buf[0]); 
 	printf("line:%d &buf[1]: %p\n",__LINE__,&buf[1]); 
 	printf("line:%d &buf[2]: %p\n",__LINE__,&buf[2]); 
-	printf("line:%d &buf[3]: %p\n",__LINE__,&buf[3]); 
-
+	printf("line:%d &buf[3]: %p\n",__LINE__,&buf[3]);
+	printf("line:%d &buf[4]: %p\n",__LINE__,&buf[4]);
 	/*
 	** +4 : buf[0] buf[1] buf[2] buf[3]  ; +(len-1) : Length == Parameters Bytes 
 	*/
@@ -257,14 +267,16 @@ printf("line:%d &op1_major : %p new_cmd[].option1: %p\n",__LINE__,op1_major,new_
 check_macro:
 		while(op1_major->option2 !=NULL){  // check if option2 exists,e.g., parameter table exists 
 			printf("line:%d ......check_macro......\n",__LINE__);
+printf("\nline:%d !!!!!!!!!!!!!!!!!! buf[0] : %p\n",__LINE__,&buf[0]);
 printf("\nline:%d !!!!!!!!!!!!!!!!!! buf[0] : %02x\n",__LINE__,buf[0]);
 printf("line:%d !!!!!!!!!!!!!!!!!! buf[1] : %02x\n\n",__LINE__,buf[1]);
-printf("!!!!!!!!!!!!!!!!!! op1_major->id : %02x\n",op1_major->id);
+printf("line:%d !!!!!!!!!!!!!!!!!! op1_major->id : %02x\n",__LINE__,op1_major->id);
+printf("line:%d !!!!!!!!!!!!!!!!!! op1_major->option2 : %p\n",__LINE__,op1_major->option2);
 			if(op1_major->id == buf[0]){   // check if id == buf[0], whereas, cmd[2]
 				opcode2_count++;
 				op2_minor = op1_major->option2; // Assign op1_major->option2 to opinter op2_minor 
 				
-				printf("\n\nop2_minor = op1_majro->option2;\n\n");
+				printf("\n\nline:%d op2_minor = op1_major->option2;\n\n",__LINE__);
 
 				printf("line:%d ...if(op1_major-> id == buf[0])......%d\n\n",__LINE__,opcode2_count);
 				printf("line:%d op1_major->option2 : %p\n",__LINE__,op1_major->option2);
@@ -296,8 +308,8 @@ printf("!!!!!!!!!!!!!!!!!! line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->i
 						// CHECK TYPE ,whereas, #define TYPE_MACRO 5 
 						opcode3_count++;
 						printf("line:%d ...if(op_minor->id == buf[1])......................................%d\n",__LINE__,opcode3_count);
-						printf("line:%d &op2_minor : %p op2_minor: %p\n",__LINE__,&op2_minor,op2_minor);
-						printf("line:%d &op2_minor->arr : %p op2_minor->arr: %p\n",__LINE__,&(op2_minor->arr),op2_minor->arr);
+						printf("line:%d op2_minor: %p\n",__LINE__,op2_minor);
+						printf("line:%d op2_minor->arr: %p\n",__LINE__,op2_minor->arr);
 						printf("line:%d buf[1] : %02x\n",__LINE__,buf[1]);
 						
 						printf("line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->id);
@@ -307,13 +319,13 @@ printf("!!!!!!!!!!!!!!!!!! line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->i
 						
 						if(op2_minor->type == TYPE_MACRO){  				
 							printf("line:%d ...if(op2_minor->type == TYPE_MACRO)......................................\n\n",__LINE__);
-							buf_tmp += 4; // buf +4  !!!!!! address shift 4 
+							buf += 4; // buf +4  !!!!!! address shift 4 
 
 							printf("line:%d buf[1] : %02x\n",__LINE__,buf[1]);
 							
-							printf("line:%d &buf  : %p buf : %p\n",__LINE__,&buf,buf);
-							printf("line:%d &buf_tmp +4 : %p buf_tmp +4 :%p\n",__LINE__,&buf_tmp,buf_tmp);
-							printf("line:%d &end : %p end :%p\n",__LINE__,&end,end);
+							printf("line:%d buf : %p\n",__LINE__,buf);
+							printf("line:%d buf_tmp +4 :%p\n",__LINE__,buf_tmp);
+							printf("line:%d end :%p\n",__LINE__,end);
 
 							printf("line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->id);
 							printf("line:%d op2_minor->type : %02x\n",__LINE__,op2_minor->type);
@@ -321,7 +333,7 @@ printf("!!!!!!!!!!!!!!!!!! line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->i
 							printf("line:%d op2_minor->arr : %p\n",__LINE__,op2_minor->arr);
 							
 							// check if buf(addrs) exceeds end(addrs),e.g., CHECK PARAMETERS BYTES
-							if(buf_tmp >= end){  // if buf buf exceeds end,?!
+							if(buf >= end){  // if buf buf exceeds end,?!
 								err=7;       
 								goto err_nak; // goto err_nak; 
 							}
@@ -329,7 +341,8 @@ printf("!!!!!!!!!!!!!!!!!! line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->i
 							op1_major = op1_macro = (struct _cmd_option1_major *)(op2_minor->arr);//?! different struct ptr type
 							printf("\n\nop1_major = op1_macro = (struct _cmd_option1_major *)(op2_minor->arr)\n\n");
 
-							printf("line:%d &op1_major : %p op2_minor->arr: %p\n",__LINE__,&op1_major,op2_minor->arr);
+							printf("line:%d op1_major->option2: %p\n",__LINE__,op1_major->option2);
+							printf("line:%d op2_minor->arr: %p\n",__LINE__,op2_minor->arr);
 							
 							printf("line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->id);
 							printf("line:%d op2_minor->type : %02x\n",__LINE__,op2_minor->type);
@@ -348,7 +361,7 @@ printf("!!!!!!!!!!!!!!!!!! line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->i
 									err=8; 	
 									goto err_nak;
 								}
-								if((buf_tmp+4+l) != end) // buf+4+l(addrs) does not match end(addrs), more or less than end.
+								if((buf+4+l) != end) // buf+4+l(addrs) does not match end(addrs), more or less than end.
 								{
 									err=9;
 									goto err_nak;
@@ -365,13 +378,14 @@ printf("!!!!!!!!!!!!!!!!!! line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->i
 								}
 							}
 							// ADD LENGTH, expect PARAMETER BYTES
-							buf_tmp += 4+l; // buf +4+l ; 
+							buf += 4+l; // buf +4+l ; 
+							printf("line:%d buf +=4+1: %p\n",__LINE__,&buf);
 							printf("line:%d buf_tmp +=4+1: %p\n",__LINE__,&buf_tmp);
 							if(buf>end){ // if buf exceeds end, error
 								err=12;
 								goto err_nak;
 							}
-							else if(buf_tmp == end){ // IF buf == end, whereas, buf += 4+l;
+							else if(buf == end){ // IF buf == end, whereas, buf += 4+l;
 								goto do_command; // do_command
 							}
 							op1_major = op1_macro;  //?! buf < end, CHECK COMPOUND PARAMETERS
@@ -386,7 +400,7 @@ printf("!!!!!!!!!!!!!!!!!! line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->i
 					printf("line:%d &op2_minor->arr : %p op2_minor->arr: %p\n",__LINE__,&(op2_minor->arr),op2_minor->arr);
 printf("\nline:%d !!!!!!!!!!!!!!!!!! buf[0] : %02x\n",__LINE__,buf[0]);
 printf("line:%d !!!!!!!!!!!!!!!!!! buf[1] : %02x\n\n",__LINE__,buf[1]);
-					printf("line:%d op2_minor->id : %02x buf[1] : %d\n",__LINE__,op2_minor->id,buf[1]);
+					printf("line:%d op2_minor->id : %02x buf[1] : %02x\n",__LINE__,op2_minor->id,buf[1]);
 					printf("line:%d &op2_minor :%p\n",__LINE__,op2_minor);
 					printf("line:%d op2_minor->type : %d\n:",__LINE__,op2_minor->type);
 					op2_minor ++; //?!  struct _cmd_option2_minor opinter shift 
@@ -502,8 +516,8 @@ do_macro:
 							}
 
 						}
-						buf_tmp +=4+l;
-						if(buf_tmp == end){
+						buf +=4+l;
+						if(buf == end){
 							goto do_finish;
 						}
 						op1_major = op1_macro;
@@ -627,7 +641,6 @@ err_nak:
 
 	return 0;
 }
-
 
 void hal_putchar(int ch)
 {
