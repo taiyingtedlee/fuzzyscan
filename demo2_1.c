@@ -5,7 +5,7 @@
 #include "../fuzzyscan/include/sp_filter.h"
 
 
-#define SIZE 256
+#define SIZE 2048
 #define TYPE_ADDR 0
 #define TYPE_MACRO 5
 #define TYPE_FUNCTION 6
@@ -15,6 +15,8 @@
 #define SERCMD_CINO_USE (1<<7)
 #define SERCMD_NO_ACKNAK 0x02
 
+static unsigned char ccd[SIZE]={'\0'};
+static unsigned char saved_setting[SIZE]={'\0'};
 void input(void);
 int dispatch_cmd(unsigned char *cmd);
 void hal_putchar(int ch);
@@ -233,7 +235,7 @@ int main(void)
 //	unsigned char cmd[]={0x7e,0x80,0x00,0x00,0x00,0x00,0x02,0x02,0x01,0x7e};
 	unsigned char *p_str,*p_cmd;
 	int i,len,sp=0,cmd_len;
-		
+	while(1){		
 	printf("Input : ");
 	fgets(str,sizeof(str),stdin);
 	len=(int)strlen(str);
@@ -249,10 +251,17 @@ int main(void)
 		cmd[i]=p_cmd[i];
 		printf("%02x ",cmd[i]);
 	}
-
+/*	
+	printf("cmd : ");
+	len=(int)sizeof(cmd);
+	for(i=0;i<len;i++){
+		printf("%02x ",cmd[i]);
+	}
+*/	
 	dispatch_cmd(cmd);
 
 	printf("\n");
+	}
 	return 0;
 }
 
@@ -267,7 +276,8 @@ int dispatch_cmd(unsigned char *cmd)
 	int opcode1_count=0,opcode2_count=0,opcode3_count=0;
 	printf("\n----------------dispatch_cmd---------------------\n");
 	unsigned char cmd_id;
-	unsigned char ccd[SIZE]={'\0'};
+//	unsigned char ccd[SIZE]={'\0'};
+// 	unsigned char *buf = ccd_capture_buffer_2+4,*end;
 	unsigned char *buf=ccd+4,*end;
 	unsigned char chksum=cmd[1]^cmd[2]^cmd[3]^cmd[4]^cmd[5]^cmd[6]; // opcode to length
 	unsigned char result_buf1[2048];
@@ -277,28 +287,67 @@ int dispatch_cmd(unsigned char *cmd)
 	/* NOTE : if *buf initial value is not declared, segmentation fault!!! ?!
 	** if, Opcode 82h 00h 03h  cmd[1]: 82h 
 	*/
-	
+	printf("line:%d  cmd_tmp : %p &cmd : %p  &cmd[7] : %p \n",__LINE__,cmd_tmp,cmd,&cmd[7]);	
+	printf("line:%d len: %d\n",__LINE__,len)	;
 	for(i=0;i<len-1;i++){
 		buf[i]=cmd_tmp[i];
+		printf("line:%d buf : %p buf[%d] : %02x &buf[%d] : %p\n",__LINE__,buf,i,buf[i],i,&(buf[i]));
 	}
+	printf("line:%d buf[1] : %02x\n",__LINE__,buf[1]);
+	printf("line:%d  buf : %p ccd : %p \n",__LINE__,buf,ccd);
 
 
 	buf_tmp=buf;
 	buf=ccd;
+	printf("line:%d length : %d\n",__LINE__,len-1);
+	printf("line:%d &buf : %p &buf_tmp : %p &ccd : %p \n",__LINE__,&buf,&buf_tmp,&ccd);
+	printf("line:%d  buf : %p  buf_tmp : %p  ccd : %p \n",__LINE__,buf,buf_tmp,ccd);
+	printf("&xtx_opt : %p\n",&xtx_opt);	
+	/*
+	printf("&shk_off_arr : %p\n",&shk_arr_off);	
+	printf("&shk_on_arr : %p\n",&shk_arr_on);	
+	printf("&shk_nak_arr : %p\n",&shk_arr_nak);	
+	*/
+	printf("&shk_opt : %p\n",&shk_opt);
+	printf("&baud_opt : %p\n",&baud_opt);	
+	printf("&XTX_arr : %p\n",&XTX_arr);
+	printf("&SHK_arr : %p\n",&SHK_arr);
+	printf("&BRT_arr : %p\n",&BRT_arr);
+	
+	printf("&RS232_minor : %p\n",&RS232_minor);
+	printf("&WIFI_minor : %p\n",&WIFI_minor);
+	printf("&BT_minor : %p\n",&BT_minor);
+	printf("&USB_minor : %p\n",&USB_minor);
+	printf("&RS232 : %p\n",&RS232);
+	printf("&WIFI : %p\n",&WIFI);
+	printf("&BT : %p\n",&BT);
+	printf("&USB : %p\n",&USB);
+	printf("&Interface : %p\n",&Interface);
+	printf("&Interface_set : %p\n",&Interface_set);
+	printf("&Interface_get : %p\n",&Interface_get);
 	// saved cmd[2] : 00h cmd[3] : 03h ; Length cmd[5] High byte cmd[6] Low byte
 	buf[0]=cmd[2];
 	buf[1]=cmd[3];
 	buf[2]=cmd[5];
 	buf[3]=cmd[6];
 	
+	printf("line:%d &buf[0]: %p\n",__LINE__,&buf[0]); 
+	printf("line:%d &buf[1]: %p\n",__LINE__,&buf[1]); 
+	printf("line:%d &buf[2]: %p\n",__LINE__,&buf[2]); 
+	printf("line:%d &buf[3]: %p\n",__LINE__,&buf[3]);
+	printf("line:%d &buf[4]: %p\n",__LINE__,&buf[4]);
 	/*
 	** +4 : buf[0] buf[1] buf[2] buf[3]  ; +(len-1) : Length == Parameters Bytes 
 	*/
+printf("\nline:%d !!!!!!!!!!!!!!!!!! buf[0] : %02x\n",__LINE__,buf[0]);
+printf("line:%d !!!!!!!!!!!!!!!!!! buf[1] : %02x\n\n",__LINE__,buf[1]);
 	end=buf+4+len-1;
+	printf("line:%d &end : %p end : %p\n",__LINE__,&end,end);
 	/*
 	** define CMD_MASK 0x3F ; cmd_id is for static const struct _cmd_opcode new_cmd[]={......};
 	*/
 	cmd_id = (cmd[1] & CMD_MASK);
+	printf("line:%d cmd_id : %d\n",__LINE__,cmd_id);
 	/*
 	** if cmd_id is in new_cmd[]={......} && Opcode[0](cmd[1]) is match opcodes[cmd_id] && 
 	*/
@@ -311,8 +360,17 @@ int dispatch_cmd(unsigned char *cmd)
 				const struct _cmd_option1_major *op1_major, *op1_macro 
 		*/	
 		opcode1_count++;
+		printf("......check opcode1......%d\n",opcode1_count);
 
 		op1_major = op1_macro = new_cmd[cmd_id].option1;
+		printf("cmd_id : %02x\n",cmd_id);
+		printf("line:%d opcodes[cmd_id] : %02x\n",__LINE__,opcodes[cmd_id]);
+printf("\nline:%d !!!!!!!!!!!!!!!!!! buf[0] : %02x\n",__LINE__,buf[0]);
+printf("line:%d !!!!!!!!!!!!!!!!!! buf[1] : %02x\n\n",__LINE__,buf[1]);
+
+printf("line:%d &op1_major : %p new_cmd[].option1: %p\n",__LINE__,op1_major,new_cmd[cmd_id].option1);
+//		printf("&new_cmd[cmd_id].option1 : %p\n",&(new_cmd[cmd_id].option1)); 
+//		printf("new_cmd[cmd_id].option1->id : %d\n",new_cmd[cmd_id].option1->id);
 		/* 
 			 NOTE : In powertool.c cmd[]{0x82,0x00,0x03,0x00,0x00,0x01,0x7e};
 
@@ -324,24 +382,99 @@ int dispatch_cmd(unsigned char *cmd)
 		*/
 check_macro:
 		while(op1_major->option2 !=NULL){  // check if option2 exists,e.g., parameter table exists 
+			printf("line:%d ......check_macro......\n",__LINE__);
+printf("\nline:%d !!!!!!!!!!!!!!!!!! buf[0] : %02x\n",__LINE__,buf[0]);
+printf("line:%d !!!!!!!!!!!!!!!!!! buf[1] : %02x\n\n",__LINE__,buf[1]);
+printf("line:%d !!!!!!!!!!!!!!!!!! op1_major->id : %02x\n",__LINE__,op1_major->id);
+printf("line:%d !!!!!!!!!!!!!!!!!! op1_major->option2 : %p\n",__LINE__,op1_major->option2);
 			if(op1_major->id == buf[0]){   // check if id == buf[0], whereas, cmd[2]
 				opcode2_count++;
 				op2_minor = op1_major->option2; // Assign op1_major->option2 to opinter op2_minor 
+				
+				printf("\n\nline:%d op2_minor = op1_major->option2;\n\n",__LINE__);
+				printf("line:%d ...if(op1_major-> id == buf[0])......%d\n\n",__LINE__,opcode2_count);
+				
+				printf("line:%d buf[0]: %02x\n",__LINE__,buf[0]);   
+				printf("line:%d op1_major->id : %d\n",__LINE__,op1_major->id);	
+				printf("line:%d op1_major->option2 : %p\n\n",__LINE__,op1_major->option2);
+
+				printf("line:%d op2_minor: %p\n",__LINE__,op2_minor);
+				printf("line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->id);
+				printf("line:%d op2_minor->type : %02x\n",__LINE__,op2_minor->type);
+				printf("line:%d op2_minor->num : %d\n",__LINE__,op2_minor->num);
+				printf("line:%d op2_minor->arr : %p\n",__LINE__,op2_minor->arr);
+printf("\nline:%d !!!!!!!!!!!!!!!!!! buf[0] : %02x\n",__LINE__,buf[0]);
+printf("line:%d !!!!!!!!!!!!!!!!!! buf[1] : %02x\n\n",__LINE__,buf[1]);
 				while(op2_minor->arr!=0){      // NOTE: check if arr exists,e.g., parameter table options exists 
+					printf("line:%d ...while(op_minor->arr != 0)......................................\n\n",__LINE__);
+					printf("line:%d &op2_minor : %p op2_minor: %p\n",__LINE__,&op2_minor,op2_minor);
+					printf("line:%d &op2_minor->arr : %p op2_minor->arr: %p\n",__LINE__,&(op2_minor->arr),op2_minor->arr);
+printf("\nline:%d !!!!!!!!!!!!!!!!!! buf[0] : %02x\n",__LINE__,buf[0]);
+printf("line:%d !!!!!!!!!!!!!!!!!! buf[1] : %02x\n\n",__LINE__,buf[1]);
+printf("!!!!!!!!!!!!!!!!!! line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->id);
+
+					printf("line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->id);
+					printf("line:%d op2_minor->type : %02x\n",__LINE__,op2_minor->type);
+					printf("line:%d op2_minor->num : %d\n",__LINE__,op2_minor->num);
+					printf("line:%d op2_minor->arr : %p\n",__LINE__,op2_minor->arr);
+
 					if (op2_minor->id == buf[1]){ // check if minor id == buf[1], whereas, cmd[3] 
 						// CHECK TYPE ,whereas, #define TYPE_MACRO 5 
+						opcode3_count++;
+						printf("line:%d ...if(op2_minor->id == buf[1])......................................%d\n",__LINE__,opcode3_count);
+						printf("line:%d buf[1] : %02x\n",__LINE__,buf[1]);
+						printf("line:%d op1_major->option2: %p\n",__LINE__,op1_major->option2);
+						
+						printf("line:%d op2_minor: %p\n",__LINE__,op2_minor);
+						printf("line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->id);
+						printf("line:%d op2_minor->type : %02x\n",__LINE__,op2_minor->type);
+						printf("line:%d op2_minor->num : %d\n",__LINE__,op2_minor->num);
+						printf("line:%d op2_minor->arr : %p\n",__LINE__,op2_minor->arr);
+						
 						if(op2_minor->type == TYPE_MACRO){  				
+							printf("line:%d ...if(op2_minor->type == TYPE_MACRO)......................................\n\n",__LINE__);
 							buf += 4; // buf +4  !!!!!! address shift 4 
+
+							printf("line:%d op2_minor: %p\n",__LINE__,op2_minor);
+							
+							printf("line:%d buf[1] : %02x\n",__LINE__,buf[1]);
+							
+							printf("line:%d buf : %p\n",__LINE__,buf);
+							printf("line:%d buf_tmp +4 :%p\n",__LINE__,buf_tmp);
+							printf("line:%d end :%p\n",__LINE__,end);
+
+							printf("line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->id);
+							printf("line:%d op2_minor->type : %02x\n",__LINE__,op2_minor->type);
+							printf("line:%d op2_minor->num : %d\n",__LINE__,op2_minor->num);
+							printf("line:%d op2_minor->arr : %p\n",__LINE__,op2_minor->arr);
+							
 							// check if buf(addrs) exceeds end(addrs),e.g., CHECK PARAMETERS BYTES
 							if(buf >= end){  // if buf buf exceeds end,?!
 								err=7;       
 								goto err_nak; // goto err_nak; 
 							}
+// ??? different struct ptr type ???//							
 							op1_major = op1_macro = (struct _cmd_option1_major *)(op2_minor->arr);
+							printf("\n\nop1_major = op1_macro = (struct _cmd_option1_major *)(op2_minor->arr)\n\n");
+
+							printf("line:%d op1_major->option2: %p\n",__LINE__,op1_major->option2);
+							printf("line:%d op2_minor->arr: %p\n",__LINE__,op2_minor->arr);
+							
+							printf("line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->id);
+							printf("line:%d op2_minor->type : %02x\n",__LINE__,op2_minor->type);
+							printf("line:%d op2_minor->num : %d\n",__LINE__,op2_minor->num);
+							printf("line:%d op2_minor->arr : %p\n",__LINE__,op2_minor->arr);
+
+							printf("line:%d goto check_macro ......\n",__LINE__);
+							
 							goto check_macro; // check macro again
 						}	
 						else{ // ELSE CHECK NO TYPE
 							int l = (buf[2]<<8 | buf[3]); // check length again, using buf[2] buf[3] 
+							printf("line:%d ...else op_minor->type != TYPE_MACRO......................................\n",__LINE__);
+							printf("line:%d l=(buf[2]<<8 | buf[3] : %d\n",__LINE__,l);
+							printf("line:%d cmd[1] : %02x opcodes[0] : %02x\n",__LINE__,cmd[1],opcodes[0]);
+							printf("line:%d op2_minor->num : %d buf+4+l : %p end : %p\n",__LINE__,op2_minor->num,buf+4+l,end);
 							if(cmd[1] == opcodes[0]){ // Action 0x80 ; Action Simple cmd, length == num param bytes, 
 								if(l != op2_minor->num){ // if length does not match num of param bytes,
 									err=8; 	
@@ -365,11 +498,14 @@ check_macro:
 							}
 							// ADD LENGTH, expect PARAMETER BYTES
 							buf += 4+l; // buf +4+l ; 
+							printf("line:%d buf +=4+1: %p\n",__LINE__,buf);
 							if(buf>end){ // if buf exceeds end, error
 								err=12;
 								goto err_nak;
 							}
 							else if(buf == end){ // IF buf == end, whereas, buf += 4+l;
+								printf("line:%d ...... else if (buf == end ) ......\n",__LINE__);
+								printf("line:%d ...... goto do_command ......\n",__LINE__);
 								goto do_command; // do_command
 							}
 							op1_major = op1_macro;  //?! buf < end, CHECK COMPOUND PARAMETERS
@@ -379,8 +515,19 @@ check_macro:
 					}
 					// if(op2_minor->id == buf[1]){}
 					// else op2_minor->id != buf[1]
+					printf("line:%d ......else (op2_minor->id != buf[1])......................................\n\n",__LINE__);
+					printf("line:%d &op2_minor : %p op2_minor: %p\n",__LINE__,&op2_minor,op2_minor);
+					printf("line:%d &op2_minor->arr : %p op2_minor->arr: %p\n",__LINE__,&(op2_minor->arr),op2_minor->arr);
+printf("\nline:%d !!!!!!!!!!!!!!!!!! buf[0] : %02x\n",__LINE__,buf[0]);
+printf("line:%d !!!!!!!!!!!!!!!!!! buf[1] : %02x\n\n",__LINE__,buf[1]);
+					printf("line:%d op2_minor->id : %02x buf[1] : %02x\n",__LINE__,op2_minor->id,buf[1]);
+					printf("line:%d &op2_minor :%p\n",__LINE__,op2_minor);
+					printf("line:%d op2_minor->type : %d\n",__LINE__,op2_minor->type);
 					op2_minor ++; //?!  struct _cmd_option2_minor opinter shift 
 
+					printf("\n\nop2_minor ++\n\n");
+
+					printf("line:%d &op2_minor++ :%p\n",__LINE__,op2_minor);
 				}
 				// while (op2_minor->arr !=0) {} 
 				// else op2_minor->arr ==0
@@ -389,6 +536,7 @@ check_macro:
 			}
 			// if(op1_major->id ==buf[0]){}
 			// else op1_major->id != buf[0]
+			printf("line:%d ......else (op1_major->id != buf[0])..................................................\n\n",__LINE__);
 			op1_major ++; // ?! struct _cmd_option1_major  pointer shift 1 unit (bytes)
 		}
 		// while(op1_major->option2 !=NULL)
@@ -407,6 +555,7 @@ do_command:
 	buf = ccd; // buf = ccd_capture_buffer_2;
 	op1_major = op1_macro = new_cmd[cmd_id].option1;
 do_macro:
+	printf("line:%d ......do_macro:......\n",__LINE__);
 	while(op1_major->option2 !=NULL){ // if option2 exists, that is, parameter table exists
 		if(op1_major->id == buf[0]){ //	if id == buf[0],that is, cmd[2] major opcode1
 			op2_minor = op1_major->option2; // assign op1_major->option2 to struct _cmd_option2_minor pointer
@@ -415,18 +564,28 @@ do_macro:
 				{
 					if(op2_minor->type == TYPE_MACRO) { // Check TYPE_MACRO,that is, compound cmd
 						buf +=4;
+						printf("line:%d buf+=4 : %p\n",__LINE__,buf);
+
 						op1_major = op1_macro = (struct _cmd_option1_major*)(op2_minor->arr); 
+						printf("line:%d ...... op1_major = op1_macro =  (struct _cmd_option1_major *)(op2_minor->arr).......\n",__LINE__);
+						printf("line:%d ...... goto do_macro.....\n",__LINE__);
 						goto do_macro;
 					}
 					else{ //Check NOT TYPE_MACRO, that is, simple cmd
 						int e, l= (buf[2]<<8 | buf[3]);
+						printf("line:%d ...... NOT TYPE_MACRO ......\n",__LINE__);
 						if(cmd[1]==opcodes[0] || cmd[1] == 0x90 || cmd[1] == 0x91){ //Action :0x80 HTD_NAK :0x90 HTD_ACK :0x91
 //exec_action()  *func_ptr to func, {0,type,2 ,(void *)sys_led_ctrl} ; static in sys_led_ctrl(unsigned char *p, int len,unsigned char flags)//
+							printf("line:%d ...... Action:0x80 || HTD_NAK:0x90 || HTD_ACK:0x91 ......\n",__LINE__);
+							printf("line:%d buf : %p buf[4] : %02x\n",__LINE__,buf,buf[4]);
+							printf("line:%d buf_tmp : %p\n",__LINE__,buf_tmp);
 							// exec_action() is replaced by ((fn_act_ctrl)op2_minor->arr->arr)(buf_tmp)
 							for(i=0;i<op2_minor->num;i++){	
 								buf_tmp[i]=*(buf+4+i);
+//								printf("&buf_tmp[%d] : %p buf_tmp[%d] : %02x ",i,&buf_tmp[i],i,buf_tmp[i]);
 							}
 							e=((fn_act_ctrl)op2_minor->arr->arr)(buf_tmp);
+							printf("line:%d e : %d\n",__LINE__,e);
 							if(e < 0 ){ // LOOKUP func e=exec_action <0 ; false 
 								err = 16;
 								goto err_nak;
@@ -434,11 +593,16 @@ do_macro:
 							if((e == 0)) {// LOOKUP func e=exec_action = 0 ; true if(e==0)
 								goto no_ack;
 							}
+							printf("line:%d ...... goto do_finish.......\n",__LINE__);
 							goto do_finish;
 						}
 						else{
 							if(cmd[1]& 0x40){ // 0x4,5,6,7,C,D,E,F ; if cmd[1] is GET cmd
+								printf("GET cmd !!!\n");
 								int rn;
+//??? send_bytes() ???//
+//								rn = send_bytes(op1_major,op2_minor, result_buf1, send_len); 
+								
 								if(rn<0){  // send_bytes <0
 									err=21;
 									goto err_nak;
@@ -449,9 +613,23 @@ do_macro:
 								}
 								else{
 									send_len += 4 + op2_minor->num;
+									printf("send_len: %d\n",send_len);
 								}
 							}
 							else{ // if cmd[1] is NOT GET cmd ; 0x4,5,6,7,C,D,E,F 
+								printf("line:%d NOT GET cmd!!!\n",__LINE__);
+// ??? eTriggerMode	???//		
+								printf("line:%d buf: %p\n",__LINE__,buf);
+								printf("line:%d buf_tmp: %p\n",__LINE__,buf_tmp);
+
+								printf("line:%d op1_major->id : %02x\n",__LINE__,op1_major->id);
+								printf("line:%d op1_major->option2 : %p\n",__LINE__,op1_major->option2);
+								printf("line:%d op2_minor->id : %02x\n",__LINE__,op2_minor->id);
+								printf("line:%d op2_minor->type : %02x\n",__LINE__,op2_minor->type);
+								printf("line:%d op2_minor->num : %d\n",__LINE__,op2_minor->num);
+								printf("line:%d op2_minor->arr : %p\n",__LINE__,op2_minor->arr);
+								
+								printf("line:%d op2_minor->arr->arr: %p\n",__LINE__,op2_minor->arr->arr);
 								/*
 								** void (*fn_opt)(unsigned char *);
 								   fn_opt=op2_minor->arr->arr;
@@ -462,9 +640,16 @@ do_macro:
 
 								for(i=0;i<op2_minor->num;i++){	
 									buf_tmp[i]=*(buf+4+i);
+									printf("&buf_tmp[%d] : %p buf_tmp[%d] : %02x ",i,&buf_tmp[i],i,buf_tmp[i]);
 								}
+								printf("\n");
+								printf("line:%d buf_tmp : %p\n",__LINE__,buf_tmp);
+								printf("line:%d buf_tmp[0] : %02x\n",__LINE__,buf_tmp[0]);
+								printf("line:%d &buf_tmp[0] : %p\n",__LINE__,&buf_tmp[0]);
+
 								// typedef void (*fn_opt)(unsigned char *opt);							
 								((fn_opt)op2_minor->arr->arr)(buf_tmp);
+								printf("\n");
 
 
 								/*
@@ -499,14 +684,22 @@ do_macro:
 
 						}
 						buf +=4+l;
+						printf("line:%d ...... buf += 4+l ......\n",__LINE__);
+						printf("line:%d ...... buf: %p\n",__LINE__,buf);
+						printf("line:%d ...... end: %p\n",__LINE__,end);
 						
 						if(buf == end){
 						
+						printf("line:%d ......if (buf == end)......\n",__LINE__);
+						printf("line:%d ......goto do_finish......\n",__LINE__);
 							goto do_finish;
 						}
+						printf("line:%d ...... else (buf != end)......\n",__LINE__);
 
 						op1_major = op1_macro;
 						
+						printf("line:%d ...... op1_major = op1_macro ......\n",__LINE__);
+						printf("line:%d ...... goto do_macro ......\n",__LINE__);
 						goto do_macro;
 					} 
 				}
@@ -530,6 +723,7 @@ do_macro:
 	goto err_nak;
 
 do_finish:
+	printf("line:%d send_len : %d\n",__LINE__,send_len);
 	if(cmd[1] & 0x40){ // 0x4,5,6,7,C,D,E,F ; if cmd[1] is GET cmd
 		unsigned char tmp;
 		chksum =0;
@@ -565,6 +759,8 @@ do_finish:
 		if ((cmd[4] & SERCMD_NO_ACKNAK) == 0){ // ?! SERCMD_NO_ACKNAK 0x02 ; Bit 2 ACK/NAK 0 = Request ; 1 = Do NOT Request
 //			printf("line:%d send_ack_packet : 7e 0f 00 00 00 00 00 0f 7e\n",__LINE__);
 			send_ack_packet(cmd[4] & SERCMD_CINO_USE); // send_ack_packet; 
+			for(i=0;i<)
+			saved_setting[i]=buf[i];
 		}
 		if (cmd[1] == 0x82){ // Interface SET cmd			
 			switch(cmd[3])  // ?! LOOKUP PARAM_VAL eOutputInterface switch(PARAM_VAL(eOutputInterface)) Modified!!!
@@ -598,6 +794,7 @@ do_finish:
 
 no_ack:
 	if(cmd[4]!=0x00){
+		printf("line:%d if (hal_putchar == _hal_putchar)\n",__LINE__);
 		printf("line:%d NO ACK!!!\n",__LINE__);
 	}
 /*
@@ -612,6 +809,7 @@ no_ack:
 err_nak:
 
 //	nak_reason = err; //  LOOKUP nak_reason :  static unsigned char nak_reason; is used in static int get_nak_status (){};
+	printf("line:%d ......err_nak......\n",__LINE__);
 	if ((cmd[4] & SERCMD_NO_ACKNAK) == 0)		
 		send_nak_packet(cmd[4] & SERCMD_CINO_USE, err); // ?! LOOKUP send_nak_packet()
 //		printf("line:%d if (hal_putchar == _hal_putchar)\n",__LINE__);
